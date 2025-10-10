@@ -21,4 +21,4 @@ site:
   template: book-theme
   options:
     favicon: favicon.ico
-    logo: site_logo.jpg
+    logo: molot_site_logo.jpg

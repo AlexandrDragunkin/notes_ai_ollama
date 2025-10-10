@@ -1,6 +1,7 @@
 ---
 title: Итог: **VPS с Tesla T4 (16 ГБ VRAM, 4 vCPU, 32 ГБ RAM) не подходит для `deepseek‑v3.1:671b-cloud`**
 ---
+## Итог: **VPS с Tesla T4 (16 ГБ VRAM, 4 vCPU, 32 ГБ RAM) не подходит для `deepseek‑v3.1:671b-cloud`**
 
 ### Почему?
 

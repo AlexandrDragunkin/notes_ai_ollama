@@ -1,0 +1,23 @@
+# See docs at: https://mystmd.org/guide/frontmatter
+version: 1
+project:
+  id: 055e287c-73a1-4761-8791-1a694f4fd193
+  title: Диалоги с AI и Ollama
+  description: Заметки на память о диалогах с AI и Ollama
+  # keywords: []
+  authors: [Александр Драгункин]
+  github: https://github.com/AlexandrDragunkin/notes_ai_ollama
+  # To autogenerate a Table of Contents, run "myst init --write-toc"
+
+  toc:
+    -file: 001_ollama_1.md
+    -file: 002_ollama_2.md
+    -file: 003_ollama_3Cloud.md
+    -file: 004_ollama_4Что выбрать.md
+    -file: 005_ollama_5выбjh VPS и модели.md
+
+site:
+  template: book-theme
+  # options:
+  #   favicon: favicon.ico
+  #   logo: site_logo.png

@@ -2,7 +2,7 @@
 
 Это стартовая страница моего сайта с заметками о диалогах с AI и использовании Ollama.
 
-:::{figure} ./Pictures/kuysnym.jpg)?raw=true
+:::{figure} ./Pictures/kuysnym.jpg
 :align: right
 :width: 40%
 

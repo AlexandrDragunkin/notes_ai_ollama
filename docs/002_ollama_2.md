@@ -26,7 +26,7 @@ title: 🛠️ Roo Code – Настройка «Ask» и «Code» чер�
 
 ---
 
-# 2️⃣  Настройки Roo Code (VS Code)
+## 2️⃣  Настройки Roo Code (VS Code)
 
 ## 2.1  Файл `settings.json`
 

@@ -17,6 +17,7 @@ project:
     - file: 004_ollama_4Что выбрать.md
     - file: 005_ollama_5_VPS_и_модели.md
     - file: 006_ollama_Door_User_refactor.md
+    - file: 007_ollama_Door_User_refactor.md
 
 site:
   template: book-theme

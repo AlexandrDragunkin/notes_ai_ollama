@@ -1,4 +1,4 @@
-Архитектурный подход к рефакторингу большого пакета Door_user
+# Архитектурный подход к рефакторингу большого пакета Door_user
 
 Отлично! Исходя из предыдущего анализа и выбранной модели **Clean Architecture + DDD**, вот конкретные предложения по рефакторингу вашего кода дверей:
 
@@ -32,6 +32,7 @@ doorsys/
 ## 2. Конкретные преобразования классов
 
 ### 2.1. Вынести Value Objects
+
 ```python
 # core/domain/value_objects/door_config.py
 from dataclasses import dataclass
@@ -73,6 +74,7 @@ class DoorConstants:
 ```
 
 ### 2.2. Переработать сущности
+
 ```python
 # core/domain/entities/door.py
 from abc import ABC
@@ -105,6 +107,7 @@ class StraightDoor(Door):
 ```
 
 ### 2.3. Создать Domain Services
+
 ```python
 # core/domain/services/door_calculator.py
 class DoorCalculator:
@@ -128,6 +131,7 @@ class DoorValidator:
 ```
 
 ### 2.4. Use Cases (Application Layer)
+
 ```python
 # core/application/use_cases/create_door.py
 from typing import Protocol
@@ -153,6 +157,7 @@ class CreateDoorUseCase:
 ```
 
 ### 2.5. Фабрики для сложных объектов
+
 ```python
 # core/domain/factories/door_factory.py
 class DoorFactory:
@@ -180,13 +185,16 @@ class StraightDoorFactory:
 ## 3. Конкретные улучшения для вашего кода
 
 ### 3.1. Убрать God Class `StandartDoor`
+
 Разделить на:
+
 - `DoorSpecification` - параметры двери
 - `DoorConstructor` - логика построения  
 - `DoorValidator` - проверки
 - `DoorRenderer` - отрисовка
 
 ### 3.2. Вынести зависимости от K3
+
 ```python
 # infrastructure/persistence/k3_adapter.py
 class K3DoorRepository:
@@ -204,6 +212,7 @@ class K3DoorRepository:
 ```
 
 ### 3.3. Улучшить обработку ошибок
+
 ```python
 # shared/exceptions/door_exceptions.py
 class DoorConstructionError(Exception):
@@ -217,6 +226,7 @@ class FacadeDimensionError(DoorConstructionError):
 ```
 
 ### 3.4. Добавить типизованные конфигурации
+
 ```python
 # core/domain/value_objects/door_config.py
 from pydantic import BaseModel
@@ -235,6 +245,7 @@ class DoorConfig(BaseModel):
 ## 4. Пример рефакторинга метода `Make()`
 
 **Было:**
+
 ```python
 def Make(self):
     # 100+ строк смешанной логики
@@ -245,6 +256,7 @@ def Make(self):
 ```
 
 **Стало:**
+
 ```python
 # core/application/services/door_assembly_service.py
 class DoorAssemblyService:

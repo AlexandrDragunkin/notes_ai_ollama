@@ -19,6 +19,7 @@ project:
     - file: 006_ollama_Door_User_refactor.md
     - file: 007_ollama_Door_User_refactor.md
     - file: 008_ollama_Door_User_refactor.md
+    - file: 009_ollama.md
 
 site:
   template: book-theme

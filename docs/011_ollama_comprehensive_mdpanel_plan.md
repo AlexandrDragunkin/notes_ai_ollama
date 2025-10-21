@@ -1,4 +1,4 @@
-# Комплексный план завершения модуля mDPanel
+# Комплексный план завершения модуля mDPanel (Python 3.7 32-битная среда Mebel.exe)
 
 ## 1. Анализ текущего состояния
 
@@ -33,11 +33,13 @@ class PolyInfo:
     paths: List['PathInfo']            # Список путей
     
     def area(self) -> float:
-        """Вычислить площадь полигона"""
+        """Вычислить площадь полигона с использованием функций K3"""
+        # Использовать k3.area или алгоритм shoelace formula на базе K3
         pass
         
     def perimeter(self) -> float:
-        """Вычислить периметр"""
+        """Вычислить периметр с использованием функций K3"""
+        # Использовать k3.distance для расчета длин отрезков
         pass
         
     def contains(self, point: Tuple[float, float]) -> bool:
@@ -57,7 +59,8 @@ class PathInfo:
     cut_side: str                      # Сторона положения
     
     def length(self) -> float:
-        """Вычислить длину пути"""
+        """Вычислить длину пути с использованием функций K3"""
+        # Использовать k3.distance для расчета длин элементов
         pass
         
     def is_closed(self) -> bool:
@@ -75,7 +78,8 @@ class ElemsInfo:
     fasteners: List['FixLine']         # Крепеж
     
     def total_volume(self) -> float:
-        """Вычислить общий объем элементов"""
+        """Вычислить общий объем элементов с использованием функций K3"""
+        # Использовать k3.volume или расчет на основе площади и толщины
         pass
         
     def validate(self) -> bool:

@@ -23,6 +23,7 @@ project:
     - file: 010_ollama_plan_mdpanel.md
     - file: 011_ollama_comprehensive_mdpanel_plan.md
     - file: 012_ollama_mdpanel_implementation_plan.md
+    - file: 013_ollama_mdpanel_testing_strategy.md
 
 site:
   template: book-theme

@@ -24,6 +24,7 @@ project:
     - file: 011_ollama_comprehensive_mdpanel_plan.md
     - file: 012_ollama_mdpanel_implementation_plan.md
     - file: 013_ollama_mdpanel_testing_strategy.md
+    - file: 014_ollama_mdpanel_final_plan_python37.md
 
 site:
   template: book-theme

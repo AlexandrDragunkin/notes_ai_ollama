@@ -1,4 +1,4 @@
-# Стратегия тестирования модуля mDPanel
+# Стратегия тестирования модуля mDPanel (Python 3.7 32-битная среда Mebel.exe)
 
 ## 1. Обзор тестовой стратегии
 
@@ -8,13 +8,19 @@
 - **Обеспечить регрессионную защиту**
 - **Подготовить модуль к продакшену**
 
-### 1.2. Уровни тестирования
+### 1.2. Уровни тестирования (Python 3.7)
 | Уровень | Цель | Покрытие | Инструменты |
 |---------|------|----------|-------------|
-| **Unit** | Проверка отдельных компонентов | 70% | pytest, unittest.mock |
-| **Integration** | Взаимодействие компонентов | 20% | pytest, тестовые K3 файлы |
-| **Use-case** | Бизнес-сценарии | 10% | pytest, моки данных |
-| **Regression** | Защита от отката | 100% | CI/CD pipeline |
+| **Unit** | Проверка отдельных компонентов | 70% | pytest 3.7, unittest.mock |
+| **Integration** | Взаимодействие компонентов | 20% | pytest 3.7, тестовые K3 файлы |
+| **Use-case** | Бизнес-сценарии | 10% | pytest 3.7, RabbitMQ/Mebel.exe |
+| **Regression** | Защита от отката | 100% | Локальный CI/CD |
+
+**Ограничения среды:**
+- **Python 3.7 32-битная** – строгое соблюдение версии
+- **Среда Mebel.exe** – выполнение внутри приложения
+- **Тестирование** – модульное через pytest 3.7, функциональное через RabbitMQ
+- **Результаты** – через журналы приложения или ответные сообщения
 
 ## 2. Unit-тестирование
 
@@ -28,12 +34,14 @@ from ..entities.poly_info import PolyInfo, PathType
 from ..entities.path_info import PathInfo
 
 class TestPolyInfo:
-    """Тесты для класса PolyInfo"""
+    """Тесты для класса PolyInfo (Python 3.7)"""
     
     @pytest.fixture
     def sample_poly_info(self):
-        """Фикстура с примером PolyInfo"""
-        paths = [
+        """Фикстура с примером PolyInfo (совместимость с Python 3.7)"""
+        # Python 3.7: использовать typing.List вместо list
+        from typing import List
+        paths = List[PathInfo] = [
             PathInfo(index=1, n_elems=4, elems=[], path_type=PathType.EXTERNAL),
             PathInfo(index=2, n_elems=2, elems=[], path_type=PathType.INTERNAL)
         ]
@@ -62,13 +70,14 @@ from ..infrastructure.panel_property_reader import PanelPropertyReader
 from ..entities.panel import Panel, PanelProperties
 
 class TestPanelPropertyReader:
-    """Тесты для сервиса чтения свойств панели"""
+    """Тесты для сервиса чтения свойств панели (Python 3.7)"""
     
     @pytest.fixture
     def mock_k3_object(self):
-        """Фикстура для мока K3 объекта"""
+        """Фикстура для мока K3 объекта (совместимость с Python 3.7)"""
         mock_obj = Mock()
         mock_obj.getattr.return_value = "010000"  # Valid panel type
+        # Python 3.7: избегать новых возможностей unittest.mock
         return mock_obj
     
     @pytest.fixture
@@ -138,7 +147,7 @@ from ..interfaces.k3_implementation import K3Implementation
 from ..entities.panel import PanelProperties, PanelMaterial, PanelDimensions
 
 class TestK3Integration:
-    """Интеграционные тесты для K3Implementation"""
+    """Интеграционные тесты для K3Implementation (Python 3.7)"""
     
     @pytest.fixture
     def k3_implementation(self):
@@ -186,15 +195,19 @@ TEST_K3_FILES = {
 }
 
 class TestK3Files:
-    """Тесты работы с реальными K3 файлами"""
+    """Тесты работы с реальными K3 файлами (Python 3.7)"""
     
     @pytest.mark.integration
     def test_read_simple_panel_from_file(self, k3_implementation):
-        """Тест чтения простой панели из файла"""
+        """Тест чтения простой панели из файла (Python 3.7)"""
         test_file = TEST_K3_FILES['simple_panel']
         
+        # Python 3.7: использовать pathlib.Path совместимый с 3.7
+        from pathlib import Path
+        test_path = Path(str(test_file))  # Совместимость с Python 3.7
+        
         # Предполагаем, что метод get_panel_from_file будет реализован
-        panel = k3_implementation.get_panel_from_file(test_file)
+        panel = k3_implementation.get_panel_from_file(test_path)
         
         assert panel is not None
         assert panel.properties.dimensions.length > 0
@@ -209,34 +222,33 @@ class TestK3Files:
 ```python
 # tests/test_use_cases.py (расширение)
 class TestComplexPanelUseCases:
-    """Тесты сложных use-case сценариев"""
+    """Тесты сложных use-case сценариев (Python 3.7 + RabbitMQ)"""
     
     def test_create_panel_with_multiple_elements(self, k3_implementation):
-        """Тест создания панели с множеством элементов"""
-        # 1. Создать базовую панель
-        panel_properties = self._create_complex_panel_properties()
-        panel_handle = k3_implementation.create_panel(panel_properties)
+        """Тест создания панели с множеством элементов (интеграция с RabbitMQ)"""
+        # Python 3.7: использовать совместимый синтаксис
         
-        # 2. Добавить пропилы
-        slots = self._create_test_slots()
-        for slot in slots:
-            k3_implementation.add_slot(panel_handle, slot)
+        # 1. Отправка сообщения через RabbitMQ в Mebel.exe
+        rabbitmq_message = self._create_rabbitmq_panel_message()
+        response = self._send_rabbitmq_message(rabbitmq_message)
         
-        # 3. Добавить кромки
-        bands = self._create_test_bands()
-        for band in bands:
-            k3_implementation.add_band(panel_handle, band)
+        # 2. Ожидание обработки в Mebel.exe
+        panel_id = self._wait_for_panel_creation(response)
         
-        # 4. Прочитать полную модель
+        # 3. Чтение результата через журналы приложения
+        log_data = self._read_mebel_logs(panel_id)
+        
+        # 4. Проверка результатов через K3Implementation
+        panel_handle = k3_implementation.get_panel_handle(panel_id)
         full_panel = k3_implementation.get_panel(panel_handle)
         
         # 5. Проверить результаты
-        assert len(full_panel.slots) == len(slots)
-        assert len(full_panel.bands) == len(bands)
-        assert full_panel.properties.material.id == panel_properties.material.id
+        assert full_panel is not None
+        assert len(full_panel.slots) > 0
+        assert len(full_panel.bands) > 0
         
-        # 6. Очистка
-        k3_implementation.delete_panel(panel_handle)
+        # 6. Очистка через RabbitMQ
+        self._send_cleanup_message(panel_id)
     
     def _create_complex_panel_properties(self):
         """Создать сложные свойства панели"""
@@ -253,7 +265,7 @@ import pytest
 from ..exceptions.panel_exceptions import PanelError, PanelCreationError
 
 class TestErrorHandling:
-    """Тесты обработки ошибок"""
+    """Тесты обработки ошибок (Python 3.7 + Mebel.exe)"""
     
     def test_invalid_panel_handle(self, k3_implementation):
         """Тест обработки невалидного handle панели"""
@@ -263,8 +275,15 @@ class TestErrorHandling:
             k3_implementation.get_panel_properties(invalid_handle)
     
     def test_corrupted_k3_file(self, k3_implementation):
-        """Тест обработки поврежденного K3 файла"""
+        """Тест обработки поврежденного K3 файла (интеграция с Mebel.exe)"""
         corrupted_file = Path('tests/test_data/corrupted.k3')
+        
+        # Отправка сообщения с поврежденным файлом через RabbitMQ
+        error_message = self._create_error_message(corrupted_file)
+        response = self._send_rabbitmq_message(error_message)
+        
+        # Проверка ошибки через журналы Mebel.exe
+        error_log = self._read_error_logs(response.message_id)
         
         with pytest.raises(PanelError):
             k3_implementation.get_panel_from_file(corrupted_file)
@@ -272,69 +291,69 @@ class TestErrorHandling:
 
 ## 5. Регрессионное тестирование
 
-### 5.1. CI/CD конфигурация
+### 5.1. Локальная конфигурация тестирования (Python 3.7)
 
-#### 5.1.1. GitHub Actions workflow
-```yaml
-# .github/workflows/mdpanel-ci.yml
-name: mDPanel CI
+#### 5.1.1. Конфигурация pytest для Python 3.7
+```ini
+# pytest.ini для Python 3.7
+[tool:pytest]
+testpaths = tests
+python_files = test_*.py
+python_classes = Test*
+python_functions = test_*
+addopts =
+    -v
+    --strict-markers
+    --tb=short
+markers =
+    integration: integration tests
+    slow: slow tests
+    use_case: use case tests
+    rabbitmq: tests requiring RabbitMQ
+    mebel_exe: tests requiring Mebel.exe
 
-on:
-  push:
-    branches: [ main, develop ]
-  pull_request:
-    branches: [ main ]
+# Запуск тестов внутри Mebel.exe:
+# python -m pytest tests/ -v -m "not rabbitmq and not mebel_exe"
+```
 
-jobs:
-  test:
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        python-version: [3.8, 3.9, 3.10]
+#### 5.1.2. Функциональное тестирование через RabbitMQ
+```python
+# tests/functional/test_rabbitmq_integration.py
+import pika  # Совместимость с Python 3.7
+import json
+from typing import Dict, Any
+
+class TestRabbitMQIntegration:
+    """Тесты интеграции через RabbitMQ в среде Mebel.exe (Python 3.7)"""
     
-    steps:
-    - uses: actions/checkout@v3
-    
-    - name: Set up Python ${{ matrix.python-version }}
-      uses: actions/setup-python@v4
-      with:
-        python-version: ${{ matrix.python-version }}
-    
-    - name: Install dependencies
-      run: |
-        cd src/Proto/mDPanel
-        python -m pip install --upgrade pip
-        pip install pytest pytest-cov codecov
+    @pytest.mark.rabbitmq
+    @pytest.mark.mebel_exe
+    def test_panel_creation_via_message(self):
+        """Тест создания панели через сообщение RabbitMQ"""
+        # Python 3.7: использовать typing для аннотаций
+        message: Dict[str, Any] = {
+            "action": "create_panel",
+            "properties": {
+                "material": 502,
+                "length": 2000.0,
+                "width": 600.0
+            }
+        }
         
-    - name: Run tests with coverage
-      run: |
-        cd src/Proto/mDPanel
-        python -m pytest tests/ -v --cov=. --cov-report=xml
+        # Отправка сообщения в Mebel.exe через RabbitMQ
+        connection = pika.BlockingConnection(pika.ConnectionParameters('localhost'))
+        channel = connection.channel()
+        channel.basic_publish(
+            exchange='mebel_exchange',
+            routing_key='panel.create',
+            body=json.dumps(message)
+        )
         
-    - name: Upload coverage to Codecov
-      uses: codecov/codecov-action@v3
-      with:
-        file: ./src/Proto/mDPanel/coverage.xml
+        # Ожидание ответа через журналы приложения
+        log_entry = self._wait_for_log_entry('Panel created successfully')
+        assert log_entry is not None
         
-  lint:
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v3
-    - name: Set up Python
-      uses: actions/setup-python@v4
-      with:
-        python-version: '3.10'
-    - name: Install linting tools
-      run: |
-        pip install flake8 black isort
-    - name: Lint with flake8
-      run: |
-        cd src/Proto/mDPanel
-        flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
-    - name: Check formatting with black
-      run: |
-        cd src/Proto/mDPanel
-        black --check .
+        connection.close()
 ```
 
 ### 5.2. Мониторинг покрытия

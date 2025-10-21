@@ -21,6 +21,8 @@ project:
     - file: 008_ollama_Door_User_refactor.md
     - file: 009_ollama.md
     - file: 010_ollama_plan_mdpanel.md
+    - file: 011_ollama_comprehensive_mdpanel_plan.md
+    - file: 012_ollama_mdpanel_implementation_plan.md
 
 site:
   template: book-theme

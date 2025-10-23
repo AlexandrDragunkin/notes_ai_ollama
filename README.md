@@ -120,4 +120,5 @@ note right of BuilderHelpers
   для позиционирования крепежа
 end note
 @enduml
+```
 

@@ -1,7 +1,7 @@
 # Диаграмма построителей крепежа
 
-```plantuml
-@startuml
+```{uml}
+
 ' UML диаграмма для fixordersutils/builders.py
 
 package "fixordersutils" {
@@ -54,4 +54,3 @@ note right of BuilderHelpers
   для позиционирования крепежа
 end note
 
-@enduml

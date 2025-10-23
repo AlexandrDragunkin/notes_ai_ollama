@@ -64,28 +64,49 @@ exit;
 - `0: ()` - для панелей длиной 0 мм крепеж не устанавливается
 
 - `74: (53, )` - для панелей длиной 74 мм крепеж устанавливается на координате 53 мм от начала для первой детали (конфирмат)
-  ![LENGTH_X_POS_74](pictures/LENGTH_X_POS_74.png)
+
+  ```{image} pictures/LENGTH_X_POS_74.png
+  :alt: LENGTH_X_POS_74
+  :width: 500px
+  :align: center
+  ```
 
 - `107: (53, )` - для панелей длиной 107 мм крепеж устанавливается на координате 53 мм от начала
-  ![LENGTH_X_POS_107](pictures/LENGTH_X_POS_107.png)
+
+```{image} pictures/LENGTH_X_POS_107.png
+:alt: LENGTH_X_POS_107
+:width: 500px
+:align: center
+```
 
 - `170: (69, orders.order_second_hole_with_raster_32, -53)` - для панелей длиной 170 мм крепеж устанавливается на координатах 69 мм и -53 мм (от конца), а также вызывается функция для дополнительных отверстий
-  ![LENGTH_X_POS_170](pictures/LENGTH_X_POS_170.png)
+
+```{image} pictures/LENGTH_X_POS_170.png
+:alt: LENGTH_X_POS_170
+:width: 500px
+:align: center
+```
 
 - `427: (69, orders.order_second_hole_with_raster_32, -53)` - для панелей длиной 427 мм крепеж устанавливается на координатах 69 мм и -53 мм (от конца), а также вызывается функция для дополнительных отверстий
-  ![LENGTH_X_POS_427](pictures/LENGTH_X_POS_427.png)
+```{image} pictures/LENGTH_X_POS_427.png
+:alt: LENGTH_X_POS_427
+:width: 500px
+:align: center
+```
 
 - `634: (-61, orders.order_threeholes_centering_raster_32, -61)` - для панелей длиной 634 мм крепеж устанавливается на координатах -61 мм (от конца) и -61 мм (от конца), а также вызывается функция для дополнительных отверстий
-  ![LENGTH_X_POS_634](pictures/LENGTH_X_POS_634.png)
+
+```{image} pictures/LENGTH_X_POS_634.png
+:alt: LENGTH_X_POS_634
+:width: 500px
+:align: center
+```
 
 - `1117: (-53, orders.order_fourholes_centering_raster_32, -53)` - для панелей длиной 1117 мм крепеж устанавливается на координатах -53 мм (от конца) и -53 мм (от конца), а также вызывается функция для дополнительных отверстий
-  ![LENGTH_X_POS_1117](pictures/LENGTH_X_POS_1117.png)
 
 - `1642: (-53, orders.order_fiveholes_centering_raster_32, -53)` - для панелей длиной 1642 мм крепеж устанавливается на координатах -53 мм (от конца) и -53 мм (от конца), а также вызывается функция для дополнительных отверстий
-  ![LENGTH_X_POS_1642](pictures/LENGTH_X_POS_1642.png)
 
 - `2780: ()` - для панелей длиной 2780 мм крепеж не устанавливается
-  ![LENGTH_X_POS_2780](pictures/LENGTH_X_POS_2780.png)
 
 #### BUILD_X_POS
 Словарь определяет построители крепежа в зависимости от длины панели:
@@ -97,28 +118,28 @@ exit;
 - `0: None` - для панелей длиной 0 мм построитель не используется
 
 - `74: builders.build_group_chet_fixes` - для панелей длиной 74 мм используется построитель четного количества крепежа
-  ![BUILD_X_POS_74](./pictures/BUILD_X_POS_74.png)
+
 
 - `107: builders.build_group_notchet_fixes` - для панелей длиной 107 мм используется построитель нечетного количества крепежа
-  ![BUILD_X_POS_107](pictures/BUILD_X_POS_107.png)
+
 
 - `170: builders.build_group_second_fixes` - для панелей длиной 170 мм используется построитель второй группы крепежа
-  ![BUILD_X_POS_170](pictures/BUILD_X_POS_170.png)
+
 
 - `427: builders.build_group_chet_fixes` - для панелей длиной 427 мм используется построитель четного количества крепежа
-  ![BUILD_X_POS_427](pictures/BUILD_X_POS_427.png)
+
 
 - `634: builders.build_group_notchet_fixes` - для панелей длиной 634 мм используется построитель нечетного количества крепежа
-  ![BUILD_X_POS_634](pictures/BUILD_X_POS_634.png)
+
 
 - `1117: builders.build_group_chet_fixes` - для панелей длиной 1117 мм используется построитель четного количества крепежа
-  ![BUILD_X_POS_1117](pictures/BUILD_X_POS_1117.png)
+
 
 - `1642: builders.build_group_notchet_fixes` - для панелей длиной 1642 мм используется построитель нечетного количества крепежа
-  ![BUILD_X_POS_1642](pictures/BUILD_X_POS_1642.png)
+
 
 - `2780: None` - для панелей длиной 2780 мм построитель не используется
-  ![BUILD_X_POS_2780](pictures/BUILD_X_POS_2780.png)
+
 
 ## 2. fixordersutils/properties.py
 

@@ -1,0 +1,66 @@
+# Диаграмма утилит позиционирования
+
+```{uml}
+@startuml
+' UML диаграмма для fixordersutils/position_utilites.py
+
+package "fixordersutils" {
+  class PositionUtilities {
+    +calculate_position_fix(lengthXPos: dict, id_hol_request: types.FunctionType)
+    +calculate_positions_fixes(lengthXPos: dict, dict_builds_fixes: dict, id_hol_request: types.FunctionType, x_poses_fun)
+    +get_x_poses(lengthXPos: dict)
+    +get_x_poses_orderby(lengthXPos: dict)
+    +get_build_group_fixes(buildXPos: dict)
+    +_x_poses_request(lengthXPos: dict)
+    +_x_position_adapter(x)
+    +_id_hol_request()
+    +get_length_is_slot(is_slot)
+    +HOLE_DIM()
+  }
+  
+  class NumFix {
+    -NUM_FIX_MAC
+    +initialise()
+    +add()
+    +value()
+  }
+  
+  class HolePositionHelpers {
+    +_id_holes_request(fix_id)
+    +_get_delta_position_fix_detail(det_id: iter, ordered_fix: iter, ident: str)
+    +_get_HFX(det_id: iter, ordered_fix: iter)
+    +_get_HFY(det_id: iter, ordered_fix: iter)
+    +_get_HFZ(det_id: iter, ordered_fix: iter)
+  }
+  
+  class HolePosition {
+    +IDHol
+    +IDHold
+    +XHol
+    +YHol
+    +ZHol
+  }
+  
+  PositionUtilities --> HolePosition
+  PositionUtilities --> NumFix
+  PositionUtilities --> HolePositionHelpers
+  PositionUtilities --> Params
+}
+
+note right of PositionUtilities
+  Утилиты для работы с позиционированием крепежа
+  Содержит основные функции расчета позиций крепежа
+end note
+
+note right of NumFix
+  Класс работает с глобальной переменной к3 
+  NumFixMac для передачи количества крепежей 
+  из пользовательского макро
+end note
+
+note right of HolePositionHelpers
+  Вспомогательные функции для работы 
+  с деталями крепежа и их позициями
+end note
+
+@enduml

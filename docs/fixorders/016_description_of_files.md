@@ -136,16 +136,16 @@
 ## UML Диаграммы
 
 ### Диаграмма основного скрипта
-![UML fix_konfirmat_skant2](uml_fix_konfirmat_skant2.wsd)
+[Диаграмма основного скрипта](uml_fix_konfirmat_skant2.md)
 
 ### Диаграмма свойств крепежа
-![UML properties](uml_properties.wsd)
+[Диаграмма свойств крепежа](uml_properties.md)
 
 ### Диаграмма утилит позиционирования
-![UML position_utilites](uml_position_utilites.wsd)
+[Диаграмма утилит позиционирования](uml_position_utilites.md)
 
 ### Диаграмма построителей крепежа
-![UML builders](uml_builders.wsd)
+[Диаграмма построителей крепежа](uml_builders.md)
 
 ### Общая диаграмма взаимодействия
-![UML overall interaction](uml_overall_interaction.wsd)
+[Общая диаграмма взаимодействия](uml_overall_interaction.md)

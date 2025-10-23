@@ -1,0 +1,86 @@
+# Общая диаграмма взаимодействия
+
+```{uml}
+@startuml
+' Общая UML диаграмма взаимодействия компонентов
+
+package "fixorders" {
+  class FixKonfirmatSkant2 {
+    +main()
+  }
+}
+
+package "fixordersutils" {
+  class Properties <<Properties>> {
+    +Params
+    +_Params
+    +FixParsAdapter
+  }
+  
+  class PositionUtilities <<Utilities>> {
+    +calculate_positions_fixes()
+    +calculate_position_fix()
+  }
+  
+  class Builders <<Builders>> {
+    +build_group_second_fixes()
+    +build_group_chet_fixes()
+    +build_group_notchet_fixes()
+  }
+  
+  class HolePosition <<Data>> {
+    +IDHol
+    +IDHold
+    +XHol
+    +YHol
+    +ZHol
+  }
+}
+
+package "External" {
+  class k3 <<External>> {
+    +Var
+    +VarArray
+    +Group
+  }
+  
+  class DataBase_ACCESS <<External>> {
+    +adbCon()
+  }
+}
+
+FixKonfirmatSkant2 --> PositionUtilities : использует
+FixKonfirmatSkant2 --> Properties : использует
+FixKonfirmatSkant2 --> Builders : использует
+
+PositionUtilities --> Properties : использует
+PositionUtilities --> Builders : использует
+PositionUtilities --> HolePosition : создает
+PositionUtilities --> DataBase_ACCESS : использует
+PositionUtilities --> k3 : использует
+
+Builders --> HolePosition : создает
+Builders --> Properties : использует
+Builders --> k3 : использует
+
+note right of FixKonfirmatSkant2
+  Основная точка входа в систему
+  расстановки крепежа
+end note
+
+note right of PositionUtilities
+  Основная логика расчета позиций
+  крепежа и заполнения массивов
+end note
+
+note right of Builders
+  Создание конкретных конфигураций
+  крепежа в зависимости от типа
+end note
+
+note right of Properties
+  Хранение и управление параметрами
+  крепежа и панелей
+end note
+
+@enduml

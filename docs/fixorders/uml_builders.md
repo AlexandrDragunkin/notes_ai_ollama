@@ -1,6 +1,6 @@
 # Диаграмма построителей крепежа
 
-```{uml}
+```plantuml
 @startuml
 ' UML диаграмма для fixordersutils/builders.py
 

@@ -1,0 +1,54 @@
+@startuml
+' UML диаграмма для fixordersutils/builders.py
+
+package "fixordersutils" {
+  class Builders {
+    +build_group_second_fixes(x:float, j:int, count_fixes:int, fix_details_id:iter, l_posit:list)
+    +build_group_chet_fixes(x:float, j:int, count_fixes:int, fix_details_id:iter, l_posit:list)
+    +build_group_notchet_fixes(x:float, j:int, count_fixes:int, fix_details_id:iter, l_posit:list)
+    +build_group_notchet_fixes_nm(x:float, j:int, count_fixes:int, fix_details_id:iter, l_posit:list)
+    +build_group_chet_fixes_one_last_fix(x:float, j:int, count_fixes:int, fix_details_id:iter, l_posit:list)
+    +build_group_chet_fixes_one_last_fix_minus_reverce_x32(x:float, j:int, count_fixes:int, fix_details_id:iter, l_posit:list)
+    +build_group_chet_fixes_one_last_fix_reverce_x32(x:float, j:int, count_fixes:int, fix_details_id:iter, l_posit:list)
+    +build_group_chet_fixes_one_skant_fix_reverce_x32(x:float, j:int, count_fixes:int, fix_details_id:iter, l_posit:list)
+    +build_group_one_fix_reverce_x32(x:float, j:int, count_fixes:int, fix_details_id:iter, l_posit:list)
+    +build_fixes(x:float, j:int, count_fixes:int, fix_details_id:iter, l_posit:list)
+  }
+  
+  class BuilderHelpers {
+    +is_Skant(fixid)
+    +get_group_number(j:int, fix_details_id:iter)
+    +get_id_hol(det_id, fix_details_id)
+    +get_x_hol(x, _sign, det_id, fix_details_id)
+    +get_y_hol(det_id, fix_details_id)
+    +get_z_hol(det_id, fix_details_id)
+    +get_holePositionParams(x:float, j:int, det_id:tuple, fix_details_id:iter, _sign:int)
+    +_get_sign(j, count_fixes)
+  }
+  
+  class HolePosition {
+    +IDHol
+    +IDHold
+    +XHol
+    +YHol
+    +ZHol
+  }
+  
+  Builders --> HolePosition
+  Builders --> BuilderHelpers
+  BuilderHelpers --> HolePosition
+}
+
+note right of Builders
+  Построители для различных типов крепежа
+  Содержит функции для создания 
+  различных конфигураций крепежа
+end note
+
+note right of BuilderHelpers
+  Вспомогательные функции для построителей
+  Помогают в создании параметров 
+  для позиционирования крепежа
+end note
+
+@enduml

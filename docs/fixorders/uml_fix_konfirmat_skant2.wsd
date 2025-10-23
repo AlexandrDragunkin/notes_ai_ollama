@@ -1,0 +1,61 @@
+@startuml
+' UML диаграмма для fix_konfirmat_skant2.py
+
+package "fixorders" {
+  class FixKonfirmatSkant2 {
+    +main()
+    +process_order(order_id)
+    +fix_konfirmat_positions()
+    +fix_shkant_positions()
+    +validate_fixings()
+    +update_order_fixings()
+  }
+  
+  class OrderFixingProcessor {
+    -order_data
+    -fixing_rules
+    +load_order(order_id)
+    +apply_fixing_rules()
+    +generate_fixing_report()
+  }
+  
+  class KonfirmatFixer {
+    -konfirmat_type
+    -position_params
+    +calculate_position()
+    +validate_konfirmat()
+    +apply_konfirmat_fix()
+  }
+  
+  class ShkantFixer {
+    -shkant_type
+    -position_params
+    +calculate_position()
+    +validate_shkant()
+    +apply_shkant_fix()
+  }
+  
+  FixKonfirmatSkant2 --> OrderFixingProcessor
+  OrderFixingProcessor --> KonfirmatFixer
+  OrderFixingProcessor --> ShkantFixer
+}
+
+note right of FixKonfirmatSkant2
+  Основной скрипт для исправления 
+  позиций крепежа типа конфирмат и шкант
+  в заказах мебели
+end note
+
+note right of KonfirmatFixer
+  Обработчик крепежа типа конфирмат
+  Выполняет расчет позиций и 
+  валидацию крепежа
+end note
+
+note right of ShkantFixer
+  Обработчик крепежа типа шкант
+  Выполняет расчет позиций и 
+  валидацию крепежа
+end note
+
+@enduml

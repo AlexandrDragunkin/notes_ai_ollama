@@ -27,6 +27,7 @@ project:
     - file: 014_ollama_mdpanel_final_plan_python37.md
     - file: 015_MacroK3_ Python.md
     - file: fixorders/016_description_of_files.md
+    - file: 018_testK3InYaCl.md
 
 
 

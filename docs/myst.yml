@@ -28,6 +28,7 @@ project:
     - file: 015_MacroK3_ Python.md
     - file: fixorders/016_description_of_files.md
     - file: 018_testK3InYaCl.md
+    - file: 019_Вариант с Yandex Compute.md
 
 
 

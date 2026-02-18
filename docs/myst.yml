@@ -29,9 +29,7 @@ project:
     - file: fixorders/016_description_of_files.md
     - file: 018_testK3InYaCl.md
     - file: 019_Вариант с Yandex Compute.md
-
-
-
+    - file: 020_Порядок создания объекта к3-мебель o3d.md
 
 site:
   template: book-theme

@@ -31,6 +31,7 @@ project:
     - file: 019_Вариант с Yandex Compute.md
     - file: 020_Порядок создания объекта к3-мебель o3d.md
     - file: 021_params_vrml.md
+    - file: 022_VRML_Params_door.md
 
 site:
   template: book-theme

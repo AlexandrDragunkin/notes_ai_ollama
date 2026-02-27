@@ -32,7 +32,7 @@ project:
     - file: 020_Порядок создания объекта к3-мебель o3d.md
     - file: 021_params_vrml.md
     - file: 022_VRML_Params_door.md
-    - file: vrml_md_rus\index.md
+    - file: vrml_md_rus/index.md
 
 site:
   template: book-theme

@@ -34,6 +34,7 @@ project:
     - file: 022_VRML_Params_door.md
     - file: 027_CursorAndClaude.md
     - file: 028_MCP-CursorAndClaude_2.md
+    - file: 029-MCP-Server-K3-CAD.md
 
 site:
   template: book-theme

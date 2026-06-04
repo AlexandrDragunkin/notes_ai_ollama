@@ -74,10 +74,7 @@ MCP сервер по стандарту работает как **отдель�
 **Запуск CAD как TCP-сервера:**
 
 ```bash
-# Прямой запуск из командной строки:
-"C:\ARL8\Bin\Mebel.exe" -m:C:\REPO\ARLINE\k3-mcp-server\k3_agent_tcp.py
-
-# Или через .mac файл:
+# Прямой запуск из командной строкичерез .mac файл:
 "C:\ARL8\Bin\Mebel.exe" -m:startapp.mac
 ```
 

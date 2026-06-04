@@ -53,7 +53,7 @@ MCP сервер по стандарту работает как **отдель�
                                       │ TCP socket (localhost:9000)
                                       ▼
 ┌─────────────────────────────────────────────────────────────────────┐
-│              CAD K3 (Mebel.exe -m:k3_agent_tcp.py)                   │
+│              CAD K3 (Mebel.exe -m:k3_agent.mac)                      │
 │                    Python 3.7 (32-bit)                               │
 │                                                                      │
 │  ┌──────────────────────────────────────────────────────────────┐   │
@@ -74,16 +74,16 @@ MCP сервер по стандарту работает как **отдель�
 **Запуск CAD как TCP-сервера:**
 
 ```bash
-# Прямой запуск из командной строкичерез .mac файл:
-"C:\ARL8\Bin\Mebel.exe" -m:startapp.mac
+"C:\ARL8\Bin\Mebel.exe" -m:k3_agent.mac
 ```
 
-Где `startapp.mac` содержит:
+Где `k3_agent.mac` (имя может быть любым) содержит:
 ```python
 <?python
+import sys
+sys.path.insert(0, r"C:\REPO\ARLINE\k3-mcp-server")
 import k3_agent_tcp
 ?>
-LoadOrder  last ;
 ```
 
 **Альтернативные варианты IPC** (для специальных случаев) описаны ниже.
@@ -234,10 +234,9 @@ MCP Server                          K3 Agent (в CAD)
 
 #### 4. K3 Agent
 
-Скрипт, который запускается **внутри CAD K3** одним из двух способов:
+Скрипт, который запускается **внутри CAD K3** через `.mac` файл:
 
-1. **Напрямую** — через аргумент командной строки: `Mebel.exe -m:C:\path\to\k3_agent_tcp.py`
-2. **Через `.mac` файл** — CAD K3 поддерживает формат `.mac` с тегами `<?python ... ?>` для встраивания Python-кода
+`Mebel.exe -m:` принимает **только имя макроса (`.mac` файл)**, а не прямой `.py` файл. CAD K3 поддерживает формат `.mac` с тегами `<?python ... ?>` для встраивания Python-кода:
 
 Пример из существующего файла [`ExecPYC.mac`](Proto/Arline/ExecPYC.mac):
 
@@ -325,7 +324,7 @@ k3-mcp-server/
 #!/usr/bin/env python
 """
 MCP Server для работы с CAD K3 через TCP-сокет.
-CAD K3 запускается как TCP-сервер: Mebel.exe -m:k3_agent_tcp.py
+CAD K3 запускается как TCP-сервер: Mebel.exe -m:k3_agent.mac
 """
 import json
 import sys
@@ -364,7 +363,7 @@ def send_to_k3(code: str, timeout: int = 30) -> dict:
         return {"error": "Timeout", "stderr": "CAD K3 не ответил за отведённое время"}
     except ConnectionRefusedError:
         return {"error": "CAD K3 не запущен",
-                "stderr": "Запустите: Mebel.exe -m:k3_agent_tcp.py"}
+                "stderr": "Запустите: Mebel.exe -m:k3_agent.mac"}
     except Exception as e:
         return {"error": str(e)}
     finally:
@@ -483,7 +482,7 @@ if __name__ == "__main__":
 
 ### K3 Agent — TCP-сервер (`k3_agent_tcp.py`)
 
-**Основной и рекомендуемый вариант.** Этот скрипт запускается внутри CAD K3 через `Mebel.exe -m:k3_agent_tcp.py` и открывает TCP-сокет для приёма запросов.
+**Основной и рекомендуемый вариант.** Этот скрипт запускается внутри CAD K3 через `.mac` файл (например, `Mebel.exe -m:k3_agent.mac`) и открывает TCP-сокет для приёма запросов.
 
 Основан на примере `test-server.py`, предоставленном разработчиком CAD K3.
 
@@ -491,7 +490,7 @@ if __name__ == "__main__":
 # -*- coding: utf-8 -*-
 """
 k3_agent_tcp.py — K3 Agent (TCP-сервер).
-Запускается внутри CAD K3: Mebel.exe -m:k3_agent_tcp.py
+Запускается внутри CAD K3 через .mac файл: Mebel.exe -m:k3_agent.mac
 Слушает localhost:9000, выполняет Python-код, возвращает результат.
 
 Основан на примере test-server.py (автор: Александр Драгункин)
@@ -634,23 +633,15 @@ MCP сервер использует **только стандартную би
 
 ### Шаг 3. Запустить CAD K3 как TCP-сервер
 
-**Способ A — прямой запуск с Python-скриптом (рекомендуемый):**
+`Mebel.exe -m:` принимает **только имя макроса (`.mac` файл)**, а не прямой `.py` файл. Создайте `.mac` файл, который импортирует `k3_agent_tcp`:
 
-```bash
-# Из командной строки:
-"C:\ARL8\Bin\Mebel.exe" -m:C:\REPO\ARLINE\k3-mcp-server\k3_agent_tcp.py
-```
-
-**Способ B — через .mac файл:**
-
-Создайте `startapp.mac`:
+Создайте `k3_agent.mac` (имя может быть любым):
 ```python
 <?python
 import sys
 sys.path.insert(0, r"C:\REPO\ARLINE\k3-mcp-server")
 import k3_agent_tcp
 ?>
-LoadOrder  last ;
 ```
 
 Затем запустите:
@@ -854,7 +845,7 @@ with open(r'{temp_result}', 'w') as rf:
 | **Масштабирование** | ❌ Нет | ❌ Нет | ✅ Несколько CAD | ❌ Нет | ❌ Нет |
 | **Сложность** | 🟢 Очень низкая | 🟢 Низкая | 🟡 Средняя | 🟢 Низкая | 🔴 Высокая |
 | **Зависимости** | **Нет** (стандартная библиотека) | `requests` | `pika` + RabbitMQ сервер | Нет | `pywin32` |
-| **Запуск CAD** | `Mebel.exe -m:script.py` | Через `.mac` в UI | Через `.mac` в UI | Через `.mac` в UI | Через `.mac` в UI |
+| **Запуск CAD** | `Mebel.exe -m:script.mac` | Через `.mac` в UI | Через `.mac` в UI | Через `.mac` в UI | Через `.mac` в UI |
 | **Асинхронность** | ❌ Синхронный | ❌ Синхронный | ✅ Асинхронный | ❌ Синхронный | ❌ Синхронный |
 | **Мониторинг** | ❌ | ❌ | ✅ RabbitMQ Management UI | ❌ | ❌ |
 | **Платформа** | Только Windows (CAD) | Кроссплатформа | Кроссплатформа | Кроссплатформа | Только Windows |
@@ -864,7 +855,7 @@ with open(r'{temp_result}', 'w') as rf:
 Рекомендуемая архитектура — **MCP сервер-прокси с TCP-сокетом**:
 
 - **MCP сервер** (снаружи) — принимает запросы от AI-ассистента, отправляет команды через TCP-сокет
-- **K3 Agent** (внутри CAD) — запускается как TCP-сервер через `Mebel.exe -m:k3_agent_tcp.py`, выполняет код с полным доступом к `k3`
+- **K3 Agent** (внутри CAD) — запускается как TCP-сервер через `.mac` файл (`Mebel.exe -m:k3_agent.mac`), выполняет код с полным доступом к `k3`
 - **Транспорт** — TCP-сокет (`localhost:9000`), только стандартная библиотека Python
 
 Это единственный viable подход, так как `import k3` работает **только внутри процесса CAD K3**.
@@ -878,8 +869,8 @@ cd c:\REPO\ARLINE\k3-mcp-server
 
 # 2. Создать server.py и k3_agent_tcp.py (см. выше)
 
-# 3. Запустить CAD K3 как TCP-сервер:
-"C:\ARL8\Bin\Mebel.exe" -m:C:\REPO\ARLINE\k3-mcp-server\k3_agent_tcp.py
+# 3. Создать .mac файл (k3_agent.mac) и запустить CAD K3 как TCP-сервер:
+"C:\ARL8\Bin\Mebel.exe" -m:k3_agent.mac
 
 # 4. Добавить конфигурацию в mcp_settings.json вашего AI-ассистента
 

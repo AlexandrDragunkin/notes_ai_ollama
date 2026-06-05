@@ -35,6 +35,7 @@ project:
     - file: 027_CursorAndClaude.md
     - file: 028_MCP-CursorAndClaude_2.md
     - file: 029-MCP-Server-K3-CAD.md
+    - file: 030-SC_vs_Roo.md
 
 site:
   template: book-theme

@@ -36,6 +36,7 @@ project:
     - file: 028_MCP-CursorAndClaude_2.md
     - file: 029-MCP-Server-K3-CAD.md
     - file: 030-SC_vs_Roo.md
+    - file: 031-SC_RAG_from_tcp_k3-cad.md
 
 site:
   template: book-theme
